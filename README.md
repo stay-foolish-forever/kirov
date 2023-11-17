@@ -11,6 +11,19 @@
 Next.js based front-end for cloud native app DepMining
 
 
+## Vercel 部署
+
+```sh
+# main 分支
+https://kirov-nju.vercel.app/
+dev
+# dev 分支
+https://kirov-dev.vercel.app/
+```
+
+:bulb: 可能需要科学上网
+
+
 
 ## 本地镜像调试
 
