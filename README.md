@@ -16,7 +16,7 @@ Next.js based front-end for cloud native app DepMining
 ```sh
 # main 分支
 https://kirov-nju.vercel.app/
-dev
+
 # dev 分支
 https://kirov-dev.vercel.app/
 ```
