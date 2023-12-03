@@ -32,6 +32,7 @@
     "@mui/icons-material": "^5.14.18",
     "@mui/material": "^5.14.18",
     "@mui/x-charts": "^6.18.2",
+    "@mui/x-tree-view": "^6.17.0",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
     "ahooks": "^3.7.8",

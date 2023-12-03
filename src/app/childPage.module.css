@@ -1,0 +1,26 @@
+.main {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.trend {
+    height: 100%;
+    width: 50%;
+    left: 0;
+}
+
+.detail {
+
+}
+
+.pkgName {
+    font-size: 2rem;
+    font-weight: bold;
+    color: gray;
+}
+
+.pkgVer {
+    font-size: 1rem;
+    color: darkgray;
+}
