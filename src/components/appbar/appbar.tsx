@@ -1,4 +1,4 @@
-"use client" ;
+"use client";
 import AppBar from "@mui/material/AppBar" ;
 import Box from "@mui/material/Box" ;
 import IconButton from "@mui/material/IconButton" ;
@@ -14,23 +14,31 @@ import {JSX} from "react" ;
 import {Search, SearchIconWrapper} from "@/components/search/search" ;
 
 const StyledInputBase = styled(InputBase)(({theme}) => ({
-    color                  : "inherit",
+    color: "inherit",
     "& .MuiInputBase-input": {
         padding: theme.spacing(1, 1, 1, 0),
         // vertical padding + font size from searchIcon
-        paddingLeft                 : `calc(1em + ${theme.spacing(4)})`,
-        transition                  : theme.transitions.create("width"),
-        width                       : "100%",
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        transition: theme.transitions.create("width"),
+        width: "100%",
         [theme.breakpoints.up("sm")]: {
-            width    : "12ch",
+            width: "12ch",
             "&:focus": {
                 width: "20ch",
             },
         },
     },
-})) ;
+}));
 
 export default function Appbar(): JSX.Element {
+    const handleKeyDown = (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            // console.log(event.target.value)
+            // todo: upgrade this impl
+            window.location.href = '/package/' + event.target.value;
+        }
+    }
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static">
@@ -59,10 +67,11 @@ export default function Appbar(): JSX.Element {
                         <StyledInputBase
                             placeholder="Search…"
                             inputProps={{"aria-label": "search"}}
+                            onKeyDown={handleKeyDown}
                         />
                     </Search>
                 </Toolbar>
             </AppBar>
         </Box>
-    ) ;
+    );
 }
