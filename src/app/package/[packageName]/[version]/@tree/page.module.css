@@ -1,0 +1,23 @@
+.detail {
+    display: flex;
+    flex-direction: column;
+}
+
+.pkgName {
+    font-size: 2rem;
+    font-weight: bold;
+    color: gray;
+    margin: 0 1rem;
+}
+
+.pkgVer {
+    font-size: 1rem;
+    font-weight: bold;
+    color: darkgray;
+}
+
+.tree {
+    padding: 1rem 2rem;
+    flex: 1;
+    overflow: hidden;
+}
