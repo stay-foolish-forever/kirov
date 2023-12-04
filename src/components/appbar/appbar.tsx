@@ -12,6 +12,7 @@ import SearchIcon from "@mui/icons-material/Search" ;
 
 import {JSX} from "react" ;
 import {Search, SearchIconWrapper} from "@/components/search/search" ;
+import {useRouter} from "next/navigation";
 
 const StyledInputBase = styled(InputBase)(({theme}) => ({
     color: "inherit",
@@ -31,12 +32,16 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 }));
 
 export default function Appbar(): JSX.Element {
+    const router = useRouter()
+    const handleClick = () => {
+        router.push('/dashboard')
+    }
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
             event.preventDefault();
             // console.log(event.target.value)
-            // todo: upgrade this impl
-            window.location.href = '/package/' + event.target.value;
+            const url = '/package/' + event.target.value
+            router.push(url)
         }
     }
     return (
@@ -49,6 +54,7 @@ export default function Appbar(): JSX.Element {
                         color="inherit"
                         aria-label="open drawer"
                         sx={{mr: 2}}
+                        onClick={handleClick}
                     >
                         <MenuIcon/>
                     </IconButton>

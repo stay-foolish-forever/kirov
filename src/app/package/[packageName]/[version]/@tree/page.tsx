@@ -1,4 +1,4 @@
-"use client" ;
+"use client";
 
 import {JSX, ReactNode} from "react" ;
 
@@ -9,17 +9,18 @@ import {TreeItem, TreeView} from "@/third-parties/@mui/x-tree-view" ;
 
 import {DependencyTree} from "@/types/dependency" ;
 import {PackageNameAndVersion} from "@/types/package" ;
+import style from './page.module.css'
 
 function renderTree(nodes: DependencyTree): ReactNode {
     return (
         <TreeItem key={nodes.packageId} nodeId={nodes.packageId} label={nodes.packageName}>
             {
                 Array.isArray(nodes.dependencies)
-                ? nodes.dependencies.map((node) => renderTree(node))
-                : null
+                    ? nodes.dependencies.map((node) => renderTree(node))
+                    : null
             }
         </TreeItem>
-    ) ;
+    );
 };
 
 function RichObjectTreeView({data}: { data: DependencyTree }): JSX.Element {
@@ -34,7 +35,7 @@ function RichObjectTreeView({data}: { data: DependencyTree }): JSX.Element {
                 {renderTree(data)}
             </TreeView>
         </Box>
-    ) ;
+    );
 }
 
 interface TreeProps {
@@ -43,24 +44,26 @@ interface TreeProps {
 
 export default async function Tree(props: TreeProps): Promise<JSX.Element> {
     const {
-              params: {
-                  packageName,
-                  version,
-              },
-          } = props ;
+        params: {
+            packageName,
+            version,
+        },
+    } = props;
 
     const data: DependencyTree = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/package/${packageName}/${version}/dependency`)
-        .then((res) => res.json()) ;
+        .then((res) => res.json());
 
     return (
-        <>
+        <div className={style.detail}>
             <div>
-                <span>{packageName}</span>:
-                <span>{version}</span>
+                <span className={style.pkgName}>{packageName}</span>
+                <span className={style.pkgVer}>{version}</span>
+            </div>
+            <div className={style.tree}>
                 {
                     data ? (<RichObjectTreeView data={data}/>) : (<></>)
                 }
             </div>
-        </>
-    ) ;
+        </div>
+    );
 }
