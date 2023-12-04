@@ -1,16 +1,18 @@
 "use client" ;
 import * as React from "react" ;
 import {JSX} from "react" ;
+import {PackageNameAndVersion} from "@/types/package" ;
 
-export default function ChildPage(
-    {
-        params: {packageName, version},
-    }: {
-        params: {
-            packageName: string,
-            version: string
-        }
-    }): JSX.Element {
+interface PackageInfoProps {
+    params: PackageNameAndVersion;
+}
+
+export default function PackageInfo(props: PackageInfoProps): JSX.Element {
+    const {
+              params: {
+                  packageName,
+              },
+          } = props ;
 
     return (
         <>

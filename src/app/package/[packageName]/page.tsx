@@ -1,6 +1,22 @@
 import {JSX} from "react" ;
+import {DependencyTree} from "@/types/dependency" ;
 
-export default function PackageVersionList(): JSX.Element {
+interface PackageVersionListProps {
+    params: {
+        packageName: string
+    };
+}
+
+export default async function PackageVersionList(props: PackageVersionListProps): Promise<JSX.Element> {
+    const {
+              params: {
+                  packageName,
+              },
+          } = props ;
+
+    const data: DependencyTree = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/package/${packageName}/version-list`)
+        .then((res) => res.json()) ;
+
     return (
         <>
             {
