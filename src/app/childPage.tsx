@@ -1,6 +1,5 @@
 "use client"
 import style from './childPage.module.css'
-import {Container} from "../lib/container";
 import * as React from "react";
 import {LineChart} from '@mui/x-charts/LineChart';
 import Box from '@mui/material/Box';
@@ -78,20 +77,27 @@ export function ChildPage({name, version}) {
     };
 
     return (
-        <>
+        <div style={{padding: '3rem 8rem'}}>
             <h1>{name}</h1>
             <div className={style.main}>
                 <div className={style.trend}>
-                    <Container title={name + "被依赖趋势"}>
-                        <BasicLineChart x={fakeX} y={fakeY}/>
-                    </Container>
+                    <div className={style.wrapper}>
+                        <div className={style.chart}>
+                            <BasicLineChart x={fakeX} y={fakeY}/>
+                        </div>
+                        <h2 className={style.title}>被依赖趋势图</h2>
+                    </div>
                 </div>
                 <div className={style.detail}>
-                    <span className={style.pkgName}>{name}</span>
-                    <span className={style.pkgVer}>{version}</span>
-                    <RichObjectTreeView data={fakeTreeData}/>
+                    <div>
+                        <span className={style.pkgName}>{name}</span>
+                        <span className={style.pkgVer}>{version}</span>
+                    </div>
+                    <div className={style.tree}>
+                        <RichObjectTreeView data={fakeTreeData}/>
+                    </div>
                 </div>
             </div>
-        </>
+        </div>
     )
 }

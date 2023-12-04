@@ -6,8 +6,8 @@ import {ChildPage} from "./childPage";
 
 
 export default function Home() {
-    const fakePackage = 'abc'
-    const fakeVersion = 'v1.2.3'
+    const fakePackage = 'abcabcabcdefg'
+    const fakeVersion = 'v1.2.300'
     return (
         <ChildPage name={fakePackage} version={fakeVersion}/>
     )
