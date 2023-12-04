@@ -56,8 +56,8 @@ export default async function Tree(props: TreeProps): Promise<JSX.Element> {
     return (
         <div className={style.detail}>
             <div>
-                <span className={style.pkgName}>{packageName}</span>
-                <span className={style.pkgVer}>{version}</span>
+                <span className={style.pkgName}>{decodeURIComponent(packageName)}</span>
+                <span className={style.pkgVer}>{decodeURIComponent(version)}</span>
             </div>
             <div className={style.tree}>
                 {

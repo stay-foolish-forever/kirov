@@ -42,6 +42,7 @@ export default function Appbar(): JSX.Element {
             // console.log(event.target.value)
             const url = '/package/' + event.target.value
             router.push(url)
+            event.target.value = ''
         }
     }
     return (

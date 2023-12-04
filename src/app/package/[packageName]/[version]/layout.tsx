@@ -10,8 +10,7 @@ export default function Layout(
     },
 ): JSX.Element {
     return (
-        <div style={{padding: '0 8rem'}}>
-            <div>{children}</div>
+        <div style={{padding: '4rem 8rem'}}>
             <div style={{display: 'flex'}}>
                 <div style={{width: '50%', padding: '0 2rem'}}>
                     {trend}
