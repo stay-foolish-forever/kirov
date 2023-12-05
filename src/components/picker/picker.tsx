@@ -36,9 +36,11 @@ export default function Picker({changeStart, changeEnd, changeType}: {
         }
     } ;
     const handleType = (event: SelectChangeEvent) => {
-        setType(event.target.value) ;
+        const type = event.target.value ;
+        setType(type) ;
         changeType(type) ;
     } ;
+
     return (
         <div style={{display: "flex"}}>
             <DemoContainer components={["DatePicker", "DatePicker"]}>
