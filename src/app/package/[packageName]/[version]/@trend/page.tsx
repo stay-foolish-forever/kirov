@@ -45,15 +45,19 @@ export default function Trend(props: TrendProps): JSX.Element {
         searchParams.set("statTypeEnum", StatType.NPM) ;
     }) ;
 
+    const [content, setContent] = useSafeState("...Loading") ;
+
     const [data, setData] = useSafeState<Tendency | null>(null) ;
     const [trigger, setTrigger] = useSafeState<boolean>(true) ;
     useEffect(() => {
         (async () => {
             if (trigger) {
-                setData(
-                    await fetch(refRequest.current.nextUrl.href)
-                        .then((res) => res.json()),
-                ) ;
+                const data: Tendency = await fetch(refRequest.current.nextUrl.href)
+                    .then((res) => res.json()) ;
+                setData(data) ;
+                if (data && data.tendencyUnitVOList.length === 0) {
+                    setContent("No Tendency") ;
+                }
                 setTrigger(false) ;
             }
         })() ;
@@ -89,7 +93,7 @@ export default function Trend(props: TrendProps): JSX.Element {
                         timeData.length > 0 ? <BasicLineChart x={timeData} y={countData}/> :
                         <>
                             {
-                                "No Tendency"
+                                content
                             }
                         </>
                     }
