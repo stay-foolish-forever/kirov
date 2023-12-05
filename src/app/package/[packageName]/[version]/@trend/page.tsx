@@ -9,6 +9,8 @@ import {StatType} from "@/common/enums/stat-type" ;
 import style from "./page.module.css" ;
 import {useMount, useSafeState} from "ahooks" ;
 import Picker from "@/components/picker/picker" ;
+import TimeUnitPicker from "@/components/time-unit-picker" ;
+import Box from "@mui/material/Box" ;
 
 function BasicLineChart({x, y}: { x: number[], y: number[] }): JSX.Element {
     return (
@@ -45,6 +47,7 @@ export default function Trend(props: TrendProps): JSX.Element {
         searchParams.set("statTypeEnum", StatType.NPM) ;
     }) ;
 
+
     const [content, setContent] = useSafeState("...Loading") ;
 
     const [data, setData] = useSafeState<Tendency | null>(null) ;
@@ -69,35 +72,52 @@ export default function Trend(props: TrendProps): JSX.Element {
     return (
         <div className={style.wrapper}>
             <span className={style.title}>被依赖趋势图</span>
-            <Picker
-                changeStart={(newValue: string) => {
-                    searchParams.set("start", newValue) ;
-                    setTrigger(true) ;
+            <Box
+                sx={{
+                    display       : "flex",
+                    flexDirection : "row",
+                    justifyContent: "space-between",
+                    alignItems    : "center",
                 }}
-                changeEnd={(newValue: string) => {
-                    searchParams.set("end", newValue) ;
+            >
+                <Picker
+                    changeStart={(newValue: string) => {
+                        searchParams.set("start", newValue) ;
+                        setTrigger(true) ;
+                    }}
+                    changeEnd={(newValue: string) => {
+                        searchParams.set("end", newValue) ;
+                        setTrigger(true) ;
+                    }}
+                    changeType={(newValue: string) => {
+                        searchParams.set("statTypeEnum", newValue) ;
+                        setTrigger(true) ;
+                    }}
+                />
+                <TimeUnitPicker onChange={(newValue: TimeUnit) => {
+                    searchParams.set("timeUnitEnum", newValue) ;
                     setTrigger(true) ;
-                }}
-                changeType={(newValue: string) => {
-                    searchParams.set("statTypeEnum", newValue) ;
-                    setTrigger(true) ;
-                }}
-            />
+                }}/>
+            </Box>
             <Suspense fallback={
                 <>
-                    ...Loading
+                    {"...Loading"}
                 </>
             }>
-                <div className={style.chart}>
-                    {
-                        timeData.length > 0 ? <BasicLineChart x={timeData} y={countData}/> :
-                        <>
-                            {
-                                content
-                            }
-                        </>
-                    }
-                </div>
+                {
+                    !trigger
+                    ? <div className={style.chart}>
+                        {
+                            timeData.length > 0 ? <BasicLineChart x={timeData} y={countData}/> :
+                            <>
+                                {
+                                    content
+                                }
+                            </>
+                        }
+                    </div>
+                    : <>{"...Loading"}</>
+                }
             </Suspense>
         </div>
     ) ;
