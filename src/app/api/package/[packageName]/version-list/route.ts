@@ -17,8 +17,16 @@ function getMockData(): Data {
     ] ;
 }
 
-export async function GET(request: NextRequest, params: PackageNameAndVersion): Promise<Response> {
-    const {packageName} = params ;
+interface Prop {
+    params: PackageNameAndVersion;
+}
+
+export async function GET(request: NextRequest, props: Prop): Promise<Response> {
+    const {
+              params: {
+                  packageName,
+              },
+          } = props ;
 
     let data: Data ;
     switch (process.env.NODE_ENV) {
@@ -27,14 +35,16 @@ export async function GET(request: NextRequest, params: PackageNameAndVersion): 
             break ;
         default:
         {
+            const url = `${process.env.URL}/api/packages/${packageName}/versions` ;
             const res = await fetch(
-                `${process.env.URL}/api/packages/${packageName}/versions`, {
+                url, {
                     headers: {
                         "Content-Type": "application/json",
                     },
                 }) ;
             data = (await res.json()).result ;
+            console.log(`fetch ${url} data: `, data) ;
         }
     }
-    return Response.json(data) ;
+    return Response.json(data.toReversed()) ;
 }

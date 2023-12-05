@@ -10,22 +10,22 @@ function getMockData(): Data {
         {
             packageName: "typescript",
             version    : "5.3.0",
-            count      : 1000,
+            count      : Math.ceil(Math.random() * 10000),
         },
         {
             packageName: "eslint",
             version    : "8.53.0",
-            count      : 2343,
+            count      : Math.ceil(Math.random() * 10000),
         },
         {
             packageName: "next",
             version    : "14.0.2",
-            count      : 6543,
+            count      : Math.ceil(Math.random() * 10000),
         },
         {
             packageName: "react",
             version    : "18",
-            count      : 85032,
+            count      : Math.ceil(Math.random() * 10000),
         },
     ] ;
 }
@@ -38,13 +38,28 @@ export async function GET(request: NextRequest): Promise<Response> {
             break ;
         default:
         {
-            const res = await fetch(
+            const searchParams = request.nextUrl.searchParams ;
+            const realRequest = new NextRequest(
                 `${process.env.URL}/api/packages/github/rank`, {
                     headers: {
                         "Content-Type": "application/json",
                     },
                 }) ;
-            data = (await res.json()) ;
+            searchParams.forEach((value, key) => {
+                realRequest.nextUrl.searchParams.set(key, value) ;
+            }) ;
+            try {
+                const res = await fetch(
+                    realRequest.nextUrl.href, {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }) ;
+                data = (await res.json()).result ;
+            } catch (e) {
+                console.log(e) ;
+                data = getMockData() ;
+            }
         }
     }
     return Response.json(data) ;

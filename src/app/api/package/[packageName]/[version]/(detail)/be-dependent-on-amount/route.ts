@@ -28,7 +28,7 @@ function getMockData(): Data {
     for (let i = 0 ;i < fakeX.length ;i++) {
         list.push({
                       time : fakeX[i].getTime(),
-                      count: fakeY[i],
+                      count: Math.ceil(Math.random() * 10),
                   }) ;
     }
 
@@ -48,11 +48,17 @@ export interface APIBeDependentOnAmountQuery {
     statTypeEnum: StatType
 }
 
-export async function GET(request: NextRequest, params: PackageNameAndVersion): Promise<Response> {
+interface Prop {
+    params: PackageNameAndVersion;
+}
+
+export async function GET(request: NextRequest, props: Prop): Promise<Response> {
     const {
-              packageName,
-              version,
-          } = params ;
+              params: {
+                  packageName,
+                  version,
+              },
+          } = props ;
 
     let data: Data ;
     switch (process.env.NODE_ENV) {
@@ -75,8 +81,13 @@ export async function GET(request: NextRequest, params: PackageNameAndVersion): 
                 realRequest.nextUrl.searchParams.set(key, value) ;
             }) ;
 
-            const res = await fetch(realRequest) ;
+            const url = realRequest.nextUrl.href ;
+            const res = await fetch(realRequest.nextUrl.href) ;
             data = (await res.json()).result ;
+            console.log(`fetch ${url} data: `, data) ;
+            for (let i = 0 ;i < data.tendencyUnitVOList.length ;i++) {
+                data.tendencyUnitVOList[i].time = (new Date(data.tendencyUnitVOList[i].time)).getTime() ;
+            }
         }
     }
     return Response.json(data) ;
