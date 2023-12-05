@@ -3,6 +3,8 @@ import {Inter} from "next/font/google" ;
 import {ReactNode} from "react" ;
 import "./globals.css" ;
 import Appbar from "@/components/appbar/appbar" ;
+import {LocalizationProvider} from "@mui/x-date-pickers" ;
+import {AdapterMoment} from "@mui/x-date-pickers/AdapterMoment" ;
 
 const inter = Inter({subsets: ["latin"]}) ;
 
@@ -41,7 +43,9 @@ export default function RootLayout(
         <nav>
             <Appbar/>
         </nav>
-        {children}
+        <LocalizationProvider dateAdapter={AdapterMoment}>
+            {children}
+        </LocalizationProvider>
         </body>
         </html>
     ) ;
