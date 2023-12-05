@@ -1,5 +1,4 @@
-import {DependencyTree} from "@/types/dependency" ;
-import {PackageNameAndVersion} from "@/types/package" ;
+import {DependencyTree, PackageNameAndVersion} from "@/types/package" ;
 import {NextRequest} from "next/server" ;
 
 export const dynamic = "force-dynamic" ; // defaults to force-static
@@ -34,7 +33,7 @@ function getMockData(): Data {
 }
 
 export async function GET(request: NextRequest, params: PackageNameAndVersion): Promise<Response> {
-    const {packageName} = params ;
+    const {packageName, version} = params ;
 
     let data: Data ;
     switch (process.env.NODE_ENV) {
@@ -43,7 +42,12 @@ export async function GET(request: NextRequest, params: PackageNameAndVersion): 
             break ;
         default:
         {
-            const res = await fetch(`${process.env.URL}/api/packages/${packageName}`) ;
+            const res = await fetch(
+                `${process.env.URL}/api/packages/${packageName}/versions/${version}/dependency-tree`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }) ;
             data = (await res.json()).result ;
         }
     }

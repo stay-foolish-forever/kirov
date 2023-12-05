@@ -27,9 +27,14 @@ export async function GET(request: NextRequest, params: PackageNameAndVersion): 
             break ;
         default:
         {
-            const res = await fetch(`${process.env.URL}/api/packages/${packageName}`) ;
+            const res = await fetch(
+                `${process.env.URL}/api/packages/${packageName}/versions`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }) ;
             data = (await res.json()).result ;
         }
     }
     return Response.json(data) ;
-};
+}
