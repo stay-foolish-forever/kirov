@@ -36,15 +36,16 @@ export default function PackageVersionList(props: PackageVersionListProps): JSX.
               },
           } = props ;
 
-    const [data, setData] = useSafeState([]) ;
+    const [data, setData] = useSafeState<string[]>([]) ;
     useEffect(() => {
-        (async () => {
+        const func = async (packageName: string) => {
             setData(
                 await fetch(`${process.env.NEXT_PUBLIC_URL}/api/package/${packageName}/version-list`)
                     .then((res) => res.json()),
             ) ;
-        })() ;
-    }) ;
+        } ;
+        func(packageName) ;
+    }, []) ;
 
     const handleClick = (version: string) => {
         const url = `/package/${packageName}/${version}` ;
@@ -52,7 +53,7 @@ export default function PackageVersionList(props: PackageVersionListProps): JSX.
     } ;
     return (
         <>
-            <h3 style={{padding: "0 2rem"}}>All package version</h3>
+            <h3 style={{padding: "0 2rem", margin: "0 auto"}}>package {packageName} versions</h3>
             <div style={{padding: "0 3rem", height: "80%", overflow: "auto"}}>
                 <BasicList versionList={data} clickEvent={handleClick}/>
             </div>

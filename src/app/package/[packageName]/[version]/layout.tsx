@@ -1,6 +1,6 @@
-"use client";
+"use client" ;
 import {JSX, ReactNode} from "react" ;
-import * as React from "react";
+import * as React from "react" ;
 
 export default function Layout(
     {tree, trend, children}: {
@@ -10,9 +10,10 @@ export default function Layout(
     },
 ): JSX.Element {
     return (
-        <div style={{padding: '4rem 8rem'}}>
-            <div style={{display: 'flex'}}>
-                <div style={{width: '60%', padding: '0 2rem'}}>
+        <div style={{padding: "4rem 8rem"}}>
+            {children}
+            <div style={{display: "flex"}}>
+                <div style={{width: "60%", padding: "0 2rem"}}>
                     {trend}
                 </div>
                 <div>
@@ -20,5 +21,5 @@ export default function Layout(
                 </div>
             </div>
         </div>
-    );
+    ) ;
 }

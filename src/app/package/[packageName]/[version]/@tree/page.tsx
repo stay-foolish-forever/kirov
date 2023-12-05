@@ -49,16 +49,18 @@ export default function Tree(props: TreeProps): JSX.Element {
                   version,
               },
           } = props ;
+    console.log(props) ;
 
     const [data, setData] = useSafeState<DependencyTree | null>(null) ;
     useEffect(() => {
-        (async () => {
+        const func = async (packageName: string, version: string) => {
             setData(
                 await fetch(`${process.env.NEXT_PUBLIC_URL}/api/package/${packageName}/${version}/dependency`)
                     .then((res) => res.json()),
             ) ;
-        })() ;
-    }) ;
+        } ;
+        func(packageName, version) ;
+    }, []) ;
 
     return (
         <div className={style.detail}>
