@@ -12,7 +12,7 @@ export default function Layout(
     return (
         <div style={{padding: '4rem 8rem'}}>
             <div style={{display: 'flex'}}>
-                <div style={{width: '50%', padding: '0 2rem'}}>
+                <div style={{width: '60%', padding: '0 2rem'}}>
                     {trend}
                 </div>
                 <div>
