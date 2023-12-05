@@ -1,26 +1,26 @@
-"use client";
+"use client" ;
 
-import {JSX, ReactNode} from "react" ;
+import {JSX, ReactNode, useEffect} from "react" ;
 
 import Box from "@mui/material/Box" ;
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore" ;
 import ChevronRightIcon from "@mui/icons-material/ChevronRight" ;
 import {TreeItem, TreeView} from "@/third-parties/@mui/x-tree-view" ;
 
-import {DependencyTree} from "@/types/dependency" ;
-import {PackageNameAndVersion} from "@/types/package" ;
-import style from './page.module.css'
+import {DependencyTree, PackageNameAndVersion} from "@/types/package" ;
+import style from "./page.module.css" ;
+import {useSafeState} from "ahooks" ;
 
 function renderTree(nodes: DependencyTree): ReactNode {
     return (
         <TreeItem key={nodes.packageId} nodeId={nodes.packageId} label={nodes.packageName}>
             {
                 Array.isArray(nodes.dependencies)
-                    ? nodes.dependencies.map((node) => renderTree(node))
-                    : null
+                ? nodes.dependencies.map((node) => renderTree(node))
+                : null
             }
         </TreeItem>
-    );
+    ) ;
 };
 
 function RichObjectTreeView({data}: { data: DependencyTree }): JSX.Element {
@@ -35,23 +35,30 @@ function RichObjectTreeView({data}: { data: DependencyTree }): JSX.Element {
                 {renderTree(data)}
             </TreeView>
         </Box>
-    );
+    ) ;
 }
 
 interface TreeProps {
     params: PackageNameAndVersion;
 }
 
-export default async function Tree(props: TreeProps): Promise<JSX.Element> {
+export default function Tree(props: TreeProps): JSX.Element {
     const {
-        params: {
-            packageName,
-            version,
-        },
-    } = props;
+              params: {
+                  packageName,
+                  version,
+              },
+          } = props ;
 
-    const data: DependencyTree = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/package/${packageName}/${version}/dependency`)
-        .then((res) => res.json());
+    const [data, setData] = useSafeState<DependencyTree | null>(null) ;
+    useEffect(() => {
+        (async () => {
+            setData(
+                await fetch(`${process.env.NEXT_PUBLIC_URL}/api/package/${packageName}/${version}/dependency`)
+                    .then((res) => res.json()),
+            ) ;
+        })() ;
+    }) ;
 
     return (
         <div className={style.detail}>
@@ -65,5 +72,5 @@ export default async function Tree(props: TreeProps): Promise<JSX.Element> {
                 }
             </div>
         </div>
-    );
+    ) ;
 }
